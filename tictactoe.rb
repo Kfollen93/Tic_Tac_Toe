@@ -1,7 +1,36 @@
+class TicTacToe
+  def initialize
+    @board = Board.new
+    @board.create_board
+  end
 
+  def rules
+    puts "Here's how we play tictactoe etc"
+  end
 
+  def loop_until_finished
+  end  
+end
 
+class Board
+  def display_board(array)
+    <<~MYHEREDOC
+    #{array[0]}
+    #{array[1]}
+    #{array[2]}
+  MYHEREDOC
+  end
 
+  def create_board
+  my_array = Array.new(3) { Array.new(3){ " " } }
+  puts display_board(my_array)
+  end
+end
+
+class Player
+end
+
+TicTacToe.new
 
 
 
@@ -13,14 +42,12 @@
 here's an example:
 _____________________________________________
 
-1)Tictactoe the main driver class in charge of initializing a new players etc,
+1)Tictactoe the main driver class in charge of initializing new players etc,
  displaying the game rules, and looping till the games done etc
 2)Board in charge maintaining the state of the board and,
  displaying it, checking if spots are free etc
 3)player which maintains the player state ("x" or "o")
  and can be asked to take a turn etc to get their move
-4)computer player which inherits from player above overriding the ability to ask
- for a turn with logic to programatically pick a spot to place a piece etc
 ____________________________________________
 
 puts "Player One, type your name and press 'Enter'"
