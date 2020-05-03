@@ -24,9 +24,10 @@ if flip == "flip"
 end
 
 puts
-    @board.create_board #displays board
     puts "It's #{starting_player}'s turn. Pick your move by identifying which row followed by which column.
     Example: 1,2 will place an 'X' in the first row, second column."
+    @board.create_board #displays board
+
     #have starting_player pick an array spot '1,1' i.e.
     #check it == " " and then place X.
     #display updated board
@@ -56,10 +57,17 @@ class Board
   def create_board
   my_array = Array.new(3) { Array.new(3){ " " } }
   puts display_board(my_array)
+  move = gets.chomp #I put this move and if statement here instead of above. Not sure if will keep.
+#while move != "1,1"
+  if my_array[0][0] == " " && move == "1,1"
+    my_array[0][0] = "X" #X won't appear using the While loop
+  else puts "sorry cant move there. Try again"
+    #puts display_board(my_array)
+    #move = gets.chomp
   end
-end
-
-class Player
+#end
+  puts display_board(my_array)
+  end
 end
 
 TicTacToe.new
@@ -81,6 +89,9 @@ _____________________________________________
  displaying it, checking if spots are free etc
 3)player which maintains the player state ("x" or "o")
  and can be asked to take a turn etc to get their move
+
+Could instead of if/else just board_array.include?() with the below
+ board_array = [[0,0], [0,1], [0,2], [1,0], [1,1], [1,2], [2,0], [2,1], [2,2]]
 ____________________________________________
 
 puts "Player One, type your name and press 'Enter'"
