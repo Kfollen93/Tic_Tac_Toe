@@ -3,9 +3,9 @@ class TicTacToe
     @board = Board.new #initalizes board
     #print rules
     puts "Player One, type your name and press 'Enter'"
-    player_one = gets.chomp
+    @player_one = gets.chomp
     puts "Player Two, type your name and press 'Enter'"
-    player_two = gets.chomp
+    @player_two = gets.chomp
     puts 'Welcome to Tic-Tac-Toe. Three of the same letter (X or O)
     in a row, column, or diagonal, wins the game.'
 
@@ -19,25 +19,14 @@ class TicTacToe
 puts
 
 if flip == "flip"
-    starting_player = [player_one, player_two].sample
-    puts "#{starting_player} goes first and will use 'X'!"
+    @starting_player = [@player_one, @player_two].sample
+    puts "#{@starting_player} goes first and will use 'X'!"
 end
 
 puts
-    puts "It's #{starting_player}'s turn. Pick your move by identifying which row followed by which column.
+    puts "It's #{@starting_player}'s turn. Pick your move by identifying which row followed by which column.
     Example: 1,2 will place an 'X' in the first row, second column."
     @board.create_board #displays board
-
-    #have starting_player pick an array spot '1,1' i.e.
-    #check it == " " and then place X.
-    #display updated board
-    #prompt second_player pick an array spot '2,2' i.e.
-    #check it == " " and then place O.
-    #display updated board
-    #REPEAT LOOP
-    #once the array values horizontal, vertical, diagnol 3 in a row end loop
-    #announce winner
-    #if no more spaces == " " announce tie.
   end
 
   def loop_until_finished
@@ -57,26 +46,33 @@ class Board
   def create_board
   my_array = Array.new(3) { Array.new(3){ " " } }
   puts display_board(my_array)
-  move = gets.chomp #I put this move and if statement here instead of above. Not sure if will keep.
-#while move != "1,1"
-  if my_array[0][0] == " " && move == "1,1"
-    my_array[0][0] = "X" #X won't appear using the While loop
-  else puts "sorry cant move there. Try again"
-    #puts display_board(my_array)
-    #move = gets.chomp
+  row = gets.chomp.to_i
+  column = gets.chomp.to_i
+  if my_array[row][column] == " "
+    my_array[row][column] = "X"
   end
-#end
   puts display_board(my_array)
+
+  if @player_one != @starting_player
+    puts "It's #{@player_one}'s turn"
+  else puts "It's #{@player_two}'s turn"
   end
+
+  row = gets.chomp.to_i
+  column = gets.chomp.to_i
+  if my_array[row][column] == " "
+    my_array[row][column] = "O"
+  elsif my_array[row][column] != " " #loop for this? should go before if statement. See discord from 6:54am monday
+    puts "Sorry you can't move there. Try again."
+    row = gets.chomp.to_i
+    column = gets.chomp.to_i
+  end
+  puts display_board(my_array)
+end
 end
 
+
 TicTacToe.new
-
-
-
-
-
-
 
 =begin
 *Starting over with implementing the below into classes.
