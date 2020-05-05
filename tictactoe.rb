@@ -160,31 +160,43 @@ class Board
       puts
       puts "    [^][^]     It's #{$starting_player}'s turn!       [^][^]"
     end # game loop
-    if
-      # horizontal lines
+  if
       my_array[0][0] == "X" && my_array[0][1] == "X" && my_array[0][2] == "X" ||
       my_array[1][0] == "X" && my_array[1][1] == "X" && my_array[1][2] == "X" ||
       my_array[2][0] == "X" && my_array[2][1] == "X" && my_array[2][2] == "X" ||
-      my_array[0][0] == "O" && my_array[0][1] == "O" && my_array[0][2] == "O" ||
-      my_array[1][0] == "O" && my_array[1][1] == "O" && my_array[1][2] == "O" ||
-      my_array[2][0] == "O" && my_array[2][1] == "O" && my_array[2][2] == "O" ||
-
-      # vertical lines
       my_array[0][0] == "X" && my_array[1][0] == "X" && my_array[2][0] == "X" ||
       my_array[0][1] == "X" && my_array[1][1] == "X" && my_array[2][1] == "X" ||
       my_array[0][2] == "X" && my_array[1][2] == "X" && my_array[2][2] == "X" ||
+      my_array[0][0] == "X" && my_array[1][1] == "X" && my_array[2][2] == "X" ||
+      my_array[2][0] == "X" && my_array[1][1] == "X" && my_array[0][2] == "X"
+
+      puts
+      puts
+      puts "    [/][/]                                         [/][/]"
+      puts "                    #{$starting_player} wins!              "
+      puts "    [/][/]                                         [/][/]"
+
+  elsif
+      my_array[0][0] == "O" && my_array[0][1] == "O" && my_array[0][2] == "O" ||
+      my_array[1][0] == "O" && my_array[1][1] == "O" && my_array[1][2] == "O" ||
+      my_array[2][0] == "O" && my_array[2][1] == "O" && my_array[2][2] == "O" ||
       my_array[0][0] == "O" && my_array[1][0] == "O" && my_array[2][0] == "O" ||
       my_array[0][1] == "O" && my_array[1][1] == "O" && my_array[2][1] == "O" ||
       my_array[0][2] == "O" && my_array[1][2] == "O" && my_array[2][2] == "O" ||
-
-      # diagonals
-      my_array[0][0] == "X" && my_array[1][1] == "X" && my_array[2][2] == "X" ||
-      my_array[2][0] == "X" && my_array[1][1] == "X" && my_array[0][2] == "X" ||
       my_array[0][0] == "O" && my_array[1][1] == "O" && my_array[2][2] == "O" ||
       my_array[2][0] == "O" && my_array[1][1] == "O" && my_array[0][2] == "O"
-      
-      #puts "You win!"
-    end
+
+        if $player_one != $starting_player
+        puts
+        puts "    [/][/]                                    [/][/]"
+        puts "                    #{$player_one} wins!              "
+        puts "    [/][/]                                    [/][/]"
+        else puts "    [/][/]                                    [/][/]"
+             puts "                   #{$player_two} wins!              "
+             puts "    [/][/]                                    [/][/]"
+        end
+
+end
 end # create board end
 end # class end
 
