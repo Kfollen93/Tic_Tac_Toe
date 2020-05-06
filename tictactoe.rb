@@ -108,7 +108,7 @@ class Board
       my_array[0][0] == "X" && my_array[1][1] == "X" && my_array[2][2] == "X" ||
       my_array[2][0] == "X" && my_array[1][1] == "X" && my_array[0][2] == "X" ||
       my_array[0][0] == "O" && my_array[1][1] == "O" && my_array[2][2] == "O" ||
-      my_array[2][0] == "O" && my_array[1][1] == "O" && my_array[0][2] == "O"
+      my_array[2][0] == "O" && my_array[1][1] == "O" && my_array[0][2] == "O" 
 
       puts
       if $player_one != $starting_player
@@ -155,7 +155,7 @@ class Board
       my_array[0][0] == "X" && my_array[1][1] == "X" && my_array[2][2] == "X" ||
       my_array[2][0] == "X" && my_array[1][1] == "X" && my_array[0][2] == "X" ||
       my_array[0][0] == "O" && my_array[1][1] == "O" && my_array[2][2] == "O" ||
-      my_array[2][0] == "O" && my_array[1][1] == "O" && my_array[0][2] == "O"
+      my_array[2][0] == "O" && my_array[1][1] == "O" && my_array[0][2] == "O" 
 
       puts
       puts "    [^][^]     It's #{$starting_player}'s turn!       [^][^]"
@@ -195,9 +195,28 @@ class Board
              puts "                   #{$player_two} wins!              "
              puts "    [/][/]                                    [/][/]"
         end
-
 end
 end # create board end
-end # class end
+end #class end
 
 TicTacToe.new
+
+=begin
+  __________ IF THERE'S A TIE__________
+
+my_array = [1, 2, 3, " "]
+
+no_more_blanks = my_array.none? do |position|
+  position =~ /\s/
+end
+
+if no_more_blanks == true
+  puts "It's a tie!"
+end
+
+____________________________________
+
+How to make it so that if you enter anything other than 0 - 2 the while loop prompts
+  Like Regex?  while row = /[^0-2]/ || column = /[^0-2]/
+
+=end
