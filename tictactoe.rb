@@ -67,6 +67,11 @@ class Board
 
   def create_board
     my_array = Array.new(3) { Array.new(3) { " " } }
+    ##new
+    no_more_blanks = my_array.none? do |position|
+      position =~ /\s/
+    end
+    ## new ^ 
     puts display_board(my_array)
     loop do
       row = gets.chomp.to_i
@@ -108,7 +113,11 @@ class Board
       my_array[0][0] == "X" && my_array[1][1] == "X" && my_array[2][2] == "X" ||
       my_array[2][0] == "X" && my_array[1][1] == "X" && my_array[0][2] == "X" ||
       my_array[0][0] == "O" && my_array[1][1] == "O" && my_array[2][2] == "O" ||
-      my_array[2][0] == "O" && my_array[1][1] == "O" && my_array[0][2] == "O" 
+      my_array[2][0] == "O" && my_array[1][1] == "O" && my_array[0][2] == "O" ||
+
+      ##new below - dont forget to delete the extra || or if remove
+      no_more_blanks == true
+      puts "It's a tie!"
 
       puts
       if $player_one != $starting_player
