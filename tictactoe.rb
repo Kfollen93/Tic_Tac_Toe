@@ -114,14 +114,14 @@ class Board
       end
       puts
 
-      def empty?(my_array)
+      def empty?(my_array) #checks for empty spaces to announce tie
         spaces = my_array.flatten.any?{ |spot| spot == " "}
         if spaces == false
-          puts "Tie!"
+          puts "Neither player wins. It's a tie."
         end
       end
 
-      empty?(my_array)
+      empty?(my_array) #calling to check for tie
 
       row = gets.chomp.to_i
       column = gets.chomp.to_i
@@ -168,7 +168,7 @@ class Board
 
 
 
-      empty?(my_array)
+      empty?(my_array) #calling to check for tie
 
     end # game loop
   if
