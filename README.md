@@ -1,5 +1,6 @@
 # Tic Tac Toe
 
+
 You can play the game online in a REPL here: https://repl.it/@Kfollen/StaticStrictBlog
 
 1. Click the "Run" button at the top of the page.
