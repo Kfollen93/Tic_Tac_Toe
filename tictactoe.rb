@@ -51,9 +51,6 @@ class TicTacToe
     end
     @board.create_board # displays board
   end
-
-  def loop_until_finished
-  end
 end
 
 class Board
@@ -67,11 +64,6 @@ class Board
 
   def create_board
     my_array = Array.new(3) { Array.new(3) { " " } }
-    ##new
-    no_more_blanks = my_array.none? do |position|
-      position =~ /\s/
-    end
-    ## new ^ 
     puts display_board(my_array)
     loop do
       row = gets.chomp.to_i
@@ -113,11 +105,7 @@ class Board
       my_array[0][0] == "X" && my_array[1][1] == "X" && my_array[2][2] == "X" ||
       my_array[2][0] == "X" && my_array[1][1] == "X" && my_array[0][2] == "X" ||
       my_array[0][0] == "O" && my_array[1][1] == "O" && my_array[2][2] == "O" ||
-      my_array[2][0] == "O" && my_array[1][1] == "O" && my_array[0][2] == "O" ||
-
-      ##new below - dont forget to delete the extra || or if remove
-      no_more_blanks == true
-      puts "It's a tie!"
+      my_array[2][0] == "O" && my_array[1][1] == "O" && my_array[0][2] == "O"
 
       puts
       if $player_one != $starting_player
@@ -125,6 +113,15 @@ class Board
       else puts "   [^][^]     It's #{$player_two}'s turn!       [^][^]"
       end
       puts
+
+      def empty?(my_array)
+        spaces = my_array.flatten.any?{ |spot| spot == " "}
+        if spaces == false
+          puts "Tie!"
+        end
+      end
+
+      empty?(my_array)
 
       row = gets.chomp.to_i
       column = gets.chomp.to_i
@@ -168,6 +165,11 @@ class Board
 
       puts
       puts "    [^][^]     It's #{$starting_player}'s turn!       [^][^]"
+
+
+
+      empty?(my_array)
+
     end # game loop
   if
       my_array[0][0] == "X" && my_array[0][1] == "X" && my_array[0][2] == "X" ||
@@ -209,23 +211,3 @@ end # create board end
 end #class end
 
 TicTacToe.new
-
-=begin
-  __________ IF THERE'S A TIE__________
-
-my_array = [1, 2, 3, " "]
-
-no_more_blanks = my_array.none? do |position|
-  position =~ /\s/
-end
-
-if no_more_blanks == true
-  puts "It's a tie!"
-end
-
-____________________________________
-
-How to make it so that if you enter anything other than 0 - 2 the while loop prompts
-  Like Regex?  while row = /[^0-2]/ || column = /[^0-2]/
-
-=end
