@@ -1,3 +1,5 @@
+require 'colorize'
+
 class Board
     def display_board(array)
       <<~MYHEREDOC
@@ -14,12 +16,12 @@ class Board
         row = gets.chomp.to_i
         column = gets.chomp.to_i
         while row < 0 || row > 2 || column < 0 || column > 2
-          puts "Please enter between a range of 0 - 2"
+          puts "Please enter between a range of 0 - 2".red
           row = gets.chomp.to_i
           column = gets.chomp.to_i
         end
         while my_array[row][column] != " "
-          puts "Sorry you can't move there. Try again."
+          puts "Sorry you can't move there. Try again.".red
           row = gets.chomp.to_i
           column = gets.chomp.to_i
         end
@@ -54,15 +56,15 @@ class Board
   
         puts
         if $player_one != $starting_player
-          puts "    [^][^]     It's #{$player_one}'s turn!       [^][^]"
-        else puts "   [^][^]     It's #{$player_two}'s turn!       [^][^]"
+          puts "    [^][^]     It's #{$player_one}'s turn!       [^][^]".magenta
+        else puts "   [^][^]     It's #{$player_two}'s turn!       [^][^]".magenta
         end
         puts
   
         def empty?(my_array) #checks for empty spaces to announce tie
           spaces = my_array.flatten.any?{ |spot| spot == " "}
           if spaces == false
-            puts "Neither player wins. It's a tie."
+            puts "Neither player wins. It's a tie.".orange
           end
         end
   
@@ -71,12 +73,12 @@ class Board
         row = gets.chomp.to_i
         column = gets.chomp.to_i
         while row < 0 || row > 2 || column < 0 || column > 2
-          puts "Please enter between a range of 0 - 2"
+          puts "Please enter between a range of 0 - 2".red
           row = gets.chomp.to_i
           column = gets.chomp.to_i
         end
         while my_array[row][column] != " "
-          puts "Sorry you can't move there. Try again."
+          puts "Sorry you can't move there. Try again.".red
           row = gets.chomp.to_i
           column = gets.chomp.to_i
         end
@@ -109,7 +111,7 @@ class Board
         my_array[2][0] == "O" && my_array[1][1] == "O" && my_array[0][2] == "O" 
   
         puts
-        puts "    [^][^]     It's #{$starting_player}'s turn!       [^][^]"
+        puts "    [^][^]     It's #{$starting_player}'s turn!       [^][^]".light_blue
   
   
   
@@ -128,9 +130,9 @@ class Board
   
         puts
         puts
-        puts "    [/][/]                                         [/][/]"
-        puts "                    #{$starting_player} wins!              "
-        puts "    [/][/]                                         [/][/]"
+        puts "    [/][/]                                         [/][/]".green
+        puts "                    #{$starting_player} wins!              ".green
+        puts "    [/][/]                                         [/][/]".green
   
     elsif
         my_array[0][0] == "O" && my_array[0][1] == "O" && my_array[0][2] == "O" ||
@@ -144,12 +146,12 @@ class Board
   
           if $player_one != $starting_player
           puts
-          puts "    [/][/]                                    [/][/]"
-          puts "                    #{$player_one} wins!              "
-          puts "    [/][/]                                    [/][/]"
-          else puts "    [/][/]                                    [/][/]"
-               puts "                   #{$player_two} wins!              "
-               puts "    [/][/]                                    [/][/]"
+          puts "    [/][/]                                    [/][/]".green
+          puts "                    #{$player_one} wins!              ".green
+          puts "    [/][/]                                    [/][/]".green
+          else puts "    [/][/]                                    [/][/]".green
+               puts "                   #{$player_two} wins!              ".green
+               puts "    [/][/]                                    [/][/]".green
           end
   end
   end # create board end
