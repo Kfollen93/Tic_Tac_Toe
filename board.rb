@@ -1,167 +1,114 @@
-class String
-  def black;          "\e[30m#{self}\e[0m" end
-  def red;            "\e[31m#{self}\e[0m" end
-  def green;          "\e[32m#{self}\e[0m" end
-  def brown;          "\e[33m#{self}\e[0m" end
-  def blue;           "\e[34m#{self}\e[0m" end
-  def magenta;        "\e[35m#{self}\e[0m" end
-  def cyan;           "\e[36m#{self}\e[0m" end
-  def gray;           "\e[37m#{self}\e[0m" end
-end
+# frozen_string_literal: true
 
+require_relative 'instructions'
+require_relative 'player'
+
+# Displays board and updates with move entries.
 class Board
-    def display_board(array)
-      <<~MYHEREDOC
-        #{array[0]}
-        #{array[1]}
-        #{array[2]}
-      MYHEREDOC
-    end
-  
-    def create_board
-      my_array = Array.new(3) { Array.new(3) { " " } }
-      puts display_board(my_array)
-      loop do
-        row = gets.chomp.to_i
-        column = gets.chomp.to_i
-        while row < 0 || row > 2 || column < 0 || column > 2
-          puts "Please enter between a range of 0 - 2".red
-          row = gets.chomp.to_i
-          column = gets.chomp.to_i
-        end
-        while my_array[row][column] != " "
-          puts "Sorry you can't move there. Try again.".red
-          row = gets.chomp.to_i
-          column = gets.chomp.to_i
-        end
-  
-        if my_array[row][column] == " "
-          my_array[row][column] = "X"
-        end
-        puts
-        puts display_board(my_array)
-        break if
-        # horizontal lines
-        my_array[0][0] == "X" && my_array[0][1] == "X" && my_array[0][2] == "X" ||
-        my_array[1][0] == "X" && my_array[1][1] == "X" && my_array[1][2] == "X" ||
-        my_array[2][0] == "X" && my_array[2][1] == "X" && my_array[2][2] == "X" ||
-        my_array[0][0] == "O" && my_array[0][1] == "O" && my_array[0][2] == "O" ||
-        my_array[1][0] == "O" && my_array[1][1] == "O" && my_array[1][2] == "O" ||
-        my_array[2][0] == "O" && my_array[2][1] == "O" && my_array[2][2] == "O" ||
-  
-        # vertical lines
-        my_array[0][0] == "X" && my_array[1][0] == "X" && my_array[2][0] == "X" ||
-        my_array[0][1] == "X" && my_array[1][1] == "X" && my_array[2][1] == "X" ||
-        my_array[0][2] == "X" && my_array[1][2] == "X" && my_array[2][2] == "X" ||
-        my_array[0][0] == "O" && my_array[1][0] == "O" && my_array[2][0] == "O" ||
-        my_array[0][1] == "O" && my_array[1][1] == "O" && my_array[2][1] == "O" ||
-        my_array[0][2] == "O" && my_array[1][2] == "O" && my_array[2][2] == "O" ||
-  
-        # diagonals
-        my_array[0][0] == "X" && my_array[1][1] == "X" && my_array[2][2] == "X" ||
-        my_array[2][0] == "X" && my_array[1][1] == "X" && my_array[0][2] == "X" ||
-        my_array[0][0] == "O" && my_array[1][1] == "O" && my_array[2][2] == "O" ||
-        my_array[2][0] == "O" && my_array[1][1] == "O" && my_array[0][2] == "O"
-  
-        puts
-        if $player_one != $starting_player
-          puts "    [^][^]     It's #{$player_one}'s turn!       [^][^]".magenta
-        else puts "   [^][^]     It's #{$player_two}'s turn!       [^][^]".magenta
-        end
-        puts
-  
-        def empty?(my_array) #checks for empty spaces to announce tie
-          spaces = my_array.flatten.any?{ |spot| spot == " "}
-          if spaces == false
-            puts "Neither player wins. It's a tie.".brown
-          end
-        end
-  
-        empty?(my_array) #calling to check for tie
-  
-        row = gets.chomp.to_i
-        column = gets.chomp.to_i
-        while row < 0 || row > 2 || column < 0 || column > 2
-          puts "Please enter between a range of 0 - 2".red
-          row = gets.chomp.to_i
-          column = gets.chomp.to_i
-        end
-        while my_array[row][column] != " "
-          puts "Sorry you can't move there. Try again.".red
-          row = gets.chomp.to_i
-          column = gets.chomp.to_i
-        end
-  
-        if my_array[row][column] == " "
-          my_array[row][column] = "O"
-        end
-        puts display_board(my_array)
-        break if
-        # horizontal lines
-        my_array[0][0] == "X" && my_array[0][1] == "X" && my_array[0][2] == "X" ||
-        my_array[1][0] == "X" && my_array[1][1] == "X" && my_array[1][2] == "X" ||
-        my_array[2][0] == "X" && my_array[2][1] == "X" && my_array[2][2] == "X" ||
-        my_array[0][0] == "O" && my_array[0][1] == "O" && my_array[0][2] == "O" ||
-        my_array[1][0] == "O" && my_array[1][1] == "O" && my_array[1][2] == "O" ||
-        my_array[2][0] == "O" && my_array[2][1] == "O" && my_array[2][2] == "O" ||
-  
-        # vertical lines
-        my_array[0][0] == "X" && my_array[1][0] == "X" && my_array[2][0] == "X" ||
-        my_array[0][1] == "X" && my_array[1][1] == "X" && my_array[2][1] == "X" ||
-        my_array[0][2] == "X" && my_array[1][2] == "X" && my_array[2][2] == "X" ||
-        my_array[0][0] == "O" && my_array[1][0] == "O" && my_array[2][0] == "O" ||
-        my_array[0][1] == "O" && my_array[1][1] == "O" && my_array[2][1] == "O" ||
-        my_array[0][2] == "O" && my_array[1][2] == "O" && my_array[2][2] == "O" ||
-  
-        # diagonals
-        my_array[0][0] == "X" && my_array[1][1] == "X" && my_array[2][2] == "X" ||
-        my_array[2][0] == "X" && my_array[1][1] == "X" && my_array[0][2] == "X" ||
-        my_array[0][0] == "O" && my_array[1][1] == "O" && my_array[2][2] == "O" ||
-        my_array[2][0] == "O" && my_array[1][1] == "O" && my_array[0][2] == "O" 
-  
-        puts
-        puts "    [^][^]     It's #{$starting_player}'s turn!       [^][^]".blue
-  
-  
-  
-        empty?(my_array) #calling to check for tie
-  
-      end # game loop
-    if
-        my_array[0][0] == "X" && my_array[0][1] == "X" && my_array[0][2] == "X" ||
-        my_array[1][0] == "X" && my_array[1][1] == "X" && my_array[1][2] == "X" ||
-        my_array[2][0] == "X" && my_array[2][1] == "X" && my_array[2][2] == "X" ||
-        my_array[0][0] == "X" && my_array[1][0] == "X" && my_array[2][0] == "X" ||
-        my_array[0][1] == "X" && my_array[1][1] == "X" && my_array[2][1] == "X" ||
-        my_array[0][2] == "X" && my_array[1][2] == "X" && my_array[2][2] == "X" ||
-        my_array[0][0] == "X" && my_array[1][1] == "X" && my_array[2][2] == "X" ||
-        my_array[2][0] == "X" && my_array[1][1] == "X" && my_array[0][2] == "X"
-  
-        puts
-        puts
-        puts "    [/][/]                                         [/][/]".green
-        puts "                    #{$starting_player} wins!              ".green
-        puts "    [/][/]                                         [/][/]".green
-  
-    elsif
-        my_array[0][0] == "O" && my_array[0][1] == "O" && my_array[0][2] == "O" ||
-        my_array[1][0] == "O" && my_array[1][1] == "O" && my_array[1][2] == "O" ||
-        my_array[2][0] == "O" && my_array[2][1] == "O" && my_array[2][2] == "O" ||
-        my_array[0][0] == "O" && my_array[1][0] == "O" && my_array[2][0] == "O" ||
-        my_array[0][1] == "O" && my_array[1][1] == "O" && my_array[2][1] == "O" ||
-        my_array[0][2] == "O" && my_array[1][2] == "O" && my_array[2][2] == "O" ||
-        my_array[0][0] == "O" && my_array[1][1] == "O" && my_array[2][2] == "O" ||
-        my_array[2][0] == "O" && my_array[1][1] == "O" && my_array[0][2] == "O"
-  
-          if $player_one != $starting_player
-          puts
-          puts "    [/][/]                                    [/][/]".green
-          puts "                    #{$player_one} wins!              ".green
-          puts "    [/][/]                                    [/][/]".green
-          else puts "    [/][/]                                    [/][/]".green
-               puts "                   #{$player_two} wins!              ".green
-               puts "    [/][/]                                    [/][/]".green
-          end
+  attr_accessor :row_str, :column_str, :board_cords
+  include Instructions
+
+  def initialize
+    @instructions = display_instructions
+    @board = create_board
+    @row_str = row_str
+    @column_str = column_str
+    @board_cords = board_cords
   end
-  end # create board end
-  end #class end
+
+  def create_board
+    @board_cords = Array.new(3) { Array.new(3) { ' ' } }
+    puts display_board(board_cords)
+  end
+
+  def display_board(array)
+    <<~MYHEREDOC
+      #{array[0]}
+      #{array[1]}
+      #{array[2]}
+    MYHEREDOC
+  end
+
+  def enter_x_moves
+    valid_move?
+    @board_cords[@row][@column] = 'X'
+    puts display_board(board_cords)
+  end
+
+  def enter_o_moves
+    valid_move?
+    @board_cords[@row][@column] = 'O'
+    puts display_board(board_cords)
+  end
+
+  def valid_move?
+    row_and_column
+    until @row_str =~ /^[0-2]$/ && @column_str =~ /^[0-2]$/ && @board_cords[@row][@column] == ' '
+      puts 'Not a valid move.'
+      row_and_column
+    end
+  end
+
+  def row_and_column
+    @row_str = gets.chomp
+    @column_str = gets.chomp
+    @row = row_str.to_i
+    @column = column_str.to_i
+  end
+
+  def announce_player1_turn
+    if @player_one != @starting_player
+      puts "    [^][^]     It's #{@player_one}'s turn!       [^][^]"
+    else
+      puts "   [^][^]     It's #{@player_two}'s turn!       [^][^]"
+    end
+  end
+
+  def announce_player2_turn
+    puts "    [^][^]     It's #{@starting_player}'s turn!       [^][^]"
+  end
+
+  def win_or_tie?
+    x_win
+    o_win
+    empty?
+  end
+
+  def x_win
+    if  board_cords.any? { |row| row.all? { |cell| cell == 'X' } } ||
+        board_cords[0][0] == 'X' && board_cords[1][0] == 'X' && board_cords[2][0] == 'X' ||
+        board_cords[0][1] == 'X' && board_cords[1][1] == 'X' && board_cords[2][1] == 'X' ||
+        board_cords[0][2] == 'X' && board_cords[1][2] == 'X' && board_cords[2][2] == 'X' ||
+        board_cords[0][0] == 'X' && board_cords[1][1] == 'X' && board_cords[2][2] == 'X' ||
+        board_cords[2][0] == 'X' && board_cords[1][1] == 'X' && board_cords[0][2] == 'X'
+
+      puts "#{@starting_player} wins!"
+      exit
+    end
+  end
+
+  def o_win
+    if  board_cords.any? { |row| row.all? { |cell| cell == 'O' } } ||
+        board_cords[0][0] == 'O' && board_cords[1][0] == 'O' && board_cords[2][0] == 'O' ||
+        board_cords[0][1] == 'O' && board_cords[1][1] == 'O' && board_cords[2][1] == 'O' ||
+        board_cords[0][2] == 'O' && board_cords[1][2] == 'O' && board_cords[2][2] == 'O' ||
+        board_cords[0][0] == 'O' && board_cords[1][1] == 'O' && board_cords[2][2] == 'O' ||
+        board_cords[2][0] == 'O' && board_cords[1][1] == 'O' && board_cords[0][2] == 'O'
+
+      if @player_one != @starting_player
+        puts "#{@player_one} wins!"
+      else
+        puts "#{@player_two} wins!"
+      end
+      exit
+    end
+  end
+
+  def empty?
+    spaces = board_cords.flatten.any? { |spot| spot == ' ' }
+    if spaces == false
+      puts 'Neither player wins. It\'s a tie.'
+      exit
+    end
+  end
+end
