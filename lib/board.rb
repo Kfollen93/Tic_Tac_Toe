@@ -5,7 +5,7 @@ require_relative 'player'
 
 # Displays board and updates with move entries.
 class Board
-  attr_accessor :row_str, :column_str, :board_cords
+  attr_accessor :row_str, :column_str, :cords
   include Instructions
 
   def initialize
@@ -13,12 +13,12 @@ class Board
     @board = create_board
     @row_str = row_str
     @column_str = column_str
-    @board_cords = board_cords
+    @cords = cords
   end
 
   def create_board
-    @board_cords = Array.new(3) { Array.new(3) { ' ' } }
-    puts display_board(board_cords)
+    @cords = Array.new(3) { Array.new(3) { ' ' } }
+    puts display_board(cords)
   end
 
   def display_board(array)
@@ -31,19 +31,19 @@ class Board
 
   def enter_x_moves
     valid_move?
-    @board_cords[@row][@column] = 'X'
-    puts display_board(board_cords)
+    @cords[@row][@column] = 'X'
+    puts display_board(cords)
   end
 
   def enter_o_moves
     valid_move?
-    @board_cords[@row][@column] = 'O'
-    puts display_board(board_cords)
+    @cords[@row][@column] = 'O'
+    puts display_board(cords)
   end
 
   def valid_move?
     row_and_column
-    until @row_str =~ /^[0-2]$/ && @column_str =~ /^[0-2]$/ && @board_cords[@row][@column] == ' '
+    until @row_str =~ /^[0-2]$/ && @column_str =~ /^[0-2]$/ && @cords[@row][@column] == ' '
       puts 'Not a valid move.'
       row_and_column
     end
@@ -69,43 +69,68 @@ class Board
   end
 
   def win_or_tie?
-    x_win
-    o_win
+    x_horizontal_win
+    x_vertical_win
+    x_diagonal_win
+    declare_x_won
+    o_horizontal_win
+    o_vertical_win
+    o_diagonal_win
+    declare_o_won
     empty?
   end
 
-  def x_win
-    if  board_cords.any? { |row| row.all? { |cell| cell == 'X' } } ||
-        board_cords[0][0] == 'X' && board_cords[1][0] == 'X' && board_cords[2][0] == 'X' ||
-        board_cords[0][1] == 'X' && board_cords[1][1] == 'X' && board_cords[2][1] == 'X' ||
-        board_cords[0][2] == 'X' && board_cords[1][2] == 'X' && board_cords[2][2] == 'X' ||
-        board_cords[0][0] == 'X' && board_cords[1][1] == 'X' && board_cords[2][2] == 'X' ||
-        board_cords[2][0] == 'X' && board_cords[1][1] == 'X' && board_cords[0][2] == 'X'
+  def x_horizontal_win
+    cords.any? { |row| row.all? { |cell| cell == 'X' } }
+  end
 
+  def x_vertical_win
+    cords[0][0] == 'X' && cords[1][0] == 'X' && cords[2][0] == 'X' ||
+      cords[0][1] == 'X' && cords[1][1] == 'X' && cords[2][1] == 'X' ||
+      cords[0][2] == 'X' && cords[1][2] == 'X' && cords[2][2] == 'X'
+  end
+
+  def x_diagonal_win
+    cords[0][0] == 'X' && cords[1][1] == 'X' && cords[2][2] == 'X' ||
+      cords[2][0] == 'X' && cords[1][1] == 'X' && cords[0][2] == 'X'
+  end
+
+  def declare_x_won
+    if x_horizontal_win || x_vertical_win || x_diagonal_win
       puts "#{@starting_player} wins!"
       exit
     end
   end
 
-  def o_win
-    if  board_cords.any? { |row| row.all? { |cell| cell == 'O' } } ||
-        board_cords[0][0] == 'O' && board_cords[1][0] == 'O' && board_cords[2][0] == 'O' ||
-        board_cords[0][1] == 'O' && board_cords[1][1] == 'O' && board_cords[2][1] == 'O' ||
-        board_cords[0][2] == 'O' && board_cords[1][2] == 'O' && board_cords[2][2] == 'O' ||
-        board_cords[0][0] == 'O' && board_cords[1][1] == 'O' && board_cords[2][2] == 'O' ||
-        board_cords[2][0] == 'O' && board_cords[1][1] == 'O' && board_cords[0][2] == 'O'
+  def o_horizontal_win
+    cords.any? { |row| row.all? { |cell| cell == 'O' } }
+  end
 
+  def o_vertical_win
+    cords[0][0] == 'O' && cords[1][0] == 'O' && cords[2][0] == 'O' ||
+      cords[0][1] == 'O' && cords[1][1] == 'O' && cords[2][1] == 'O' ||
+      cords[0][2] == 'O' && cords[1][2] == 'O' && cords[2][2] == 'O'
+  end
+
+  def o_diagonal_win
+    cords[0][0] == 'O' && cords[1][1] == 'O' && cords[2][2] == 'O' ||
+      cords[2][0] == 'O' && cords[1][1] == 'O' && cords[0][2] == 'O'
+  end
+
+  def declare_o_won
+    if o_horizontal_win || o_vertical_win || o_diagonal_win
       if @player_one != @starting_player
         puts "#{@player_one} wins!"
+        exit
       else
         puts "#{@player_two} wins!"
+        exit
       end
-      exit
     end
   end
 
   def empty?
-    spaces = board_cords.flatten.any? { |spot| spot == ' ' }
+    spaces = cords.flatten.any? { |spot| spot == ' ' }
     if spaces == false
       puts 'Neither player wins. It\'s a tie.'
       exit
