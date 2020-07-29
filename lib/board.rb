@@ -6,6 +6,7 @@ require_relative 'player'
 # Displays board and updates with move entries.
 class Board
   attr_accessor :row_str, :column_str, :cords
+  attr_reader :starting_player
   include Instructions
 
   def initialize
@@ -86,13 +87,13 @@ class Board
 
   def x_vertical_win
     cords[0][0] == 'X' && cords[1][0] == 'X' && cords[2][0] == 'X' ||
-      cords[0][1] == 'X' && cords[1][1] == 'X' && cords[2][1] == 'X' ||
-      cords[0][2] == 'X' && cords[1][2] == 'X' && cords[2][2] == 'X'
+    cords[0][1] == 'X' && cords[1][1] == 'X' && cords[2][1] == 'X' ||
+    cords[0][2] == 'X' && cords[1][2] == 'X' && cords[2][2] == 'X'
   end
 
   def x_diagonal_win
     cords[0][0] == 'X' && cords[1][1] == 'X' && cords[2][2] == 'X' ||
-      cords[2][0] == 'X' && cords[1][1] == 'X' && cords[0][2] == 'X'
+    cords[2][0] == 'X' && cords[1][1] == 'X' && cords[0][2] == 'X'
   end
 
   def declare_x_won
@@ -108,13 +109,13 @@ class Board
 
   def o_vertical_win
     cords[0][0] == 'O' && cords[1][0] == 'O' && cords[2][0] == 'O' ||
-      cords[0][1] == 'O' && cords[1][1] == 'O' && cords[2][1] == 'O' ||
-      cords[0][2] == 'O' && cords[1][2] == 'O' && cords[2][2] == 'O'
+    cords[0][1] == 'O' && cords[1][1] == 'O' && cords[2][1] == 'O' ||
+    cords[0][2] == 'O' && cords[1][2] == 'O' && cords[2][2] == 'O'
   end
 
   def o_diagonal_win
     cords[0][0] == 'O' && cords[1][1] == 'O' && cords[2][2] == 'O' ||
-      cords[2][0] == 'O' && cords[1][1] == 'O' && cords[0][2] == 'O'
+    cords[2][0] == 'O' && cords[1][1] == 'O' && cords[0][2] == 'O'
   end
 
   def declare_o_won
@@ -131,9 +132,7 @@ class Board
 
   def empty?
     spaces = cords.flatten.any? { |spot| spot == ' ' }
-    if spaces == false
-      puts 'Neither player wins. It\'s a tie.'
-      exit
-    end
+    puts 'Neither player wins. It\'s a tie.' if spaces == false
+    #exit
   end
 end
